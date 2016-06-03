@@ -22,7 +22,9 @@ public class Acceptor implements Runnable {
         {
             try {
                 Socket s=server.accept();
-                new Readwrite(s);
+
+                System.out.println(s.toString());
+                new Readwrite(s,s.getPort());
 
 
             } catch (IOException e) {

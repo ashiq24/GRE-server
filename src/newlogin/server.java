@@ -33,10 +33,13 @@ public class server {
             luser.add(new user(n,p));
         }
         socket=new ServerSocket(port);
-        new Acceptor(socket).t.join();
+        new Acceptor(socket);
     }
 
-    public void close() throws FileNotFoundException {
+    public static void main(String[] args) throws IOException, InterruptedException {
+        new server(8000);
+    }
+    public static void close() throws FileNotFoundException {
 
         PrintWriter p=new PrintWriter("D:\\GRE server\\users.txt");
         for( int n=0;n<luser.size();n++)
@@ -45,5 +48,6 @@ public class server {
             p.println(luser.get(n).pass);
         }
         p.flush();
+        p.close();
     }
 }

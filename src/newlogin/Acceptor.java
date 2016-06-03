@@ -22,6 +22,7 @@ public class Acceptor implements Runnable{
         {
             try {
                 Socket s=socket.accept();
+                System.out.println(s.toString());
                 new Validation(s).t.join();
             } catch (IOException e) {
                 e.printStackTrace();

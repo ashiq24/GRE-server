@@ -1,4 +1,4 @@
-package newlogin;
+package Loadingserver;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,10 +10,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        //new server(8000);
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("LOGIN SERVER");
-        primaryStage.setScene(new Scene(root, 600, 225));
+        primaryStage.setTitle("LOADING SERVER");
+        primaryStage.setScene(new Scene(root, 600, 222));
         primaryStage.show();
     }
 

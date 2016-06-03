@@ -1,9 +1,10 @@
 package newlogin;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
+
+import Loadingserver.Server;
+
 
 /**
  * Created by Ashiq on 5/26/2016.
@@ -40,11 +41,22 @@ public class Validation implements  Runnable{
             {
                 dout.writeUTF("success");
                 server.luser.add(User);
+                Server.luser.add(User);
+                Server.username.add(name);
+
+                Server.password.put(name,pass);
+                server.username.add(name);
+                System.out.println(name+" "+pass);
+                File f=new File(name.trim()+".txt");
+                PrintWriter p=new PrintWriter(f);
+                p.close();
+                server.close();
+
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        finally {
+        /*finally {
 
             try {
                 din.close();
@@ -52,7 +64,7 @@ public class Validation implements  Runnable{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
 
     }
 }

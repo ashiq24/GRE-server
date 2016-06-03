@@ -14,10 +14,12 @@ public class Readwrite implements Runnable{
     DataOutputStream dout;
     ArrayList<Node> known;
     Thread t;
-    Readwrite(Socket s) throws IOException {
+    int port;
+    Readwrite(Socket s,int port) throws IOException {
         soc=s;
         din=new DataInputStream(soc.getInputStream());
         dout=new DataOutputStream(soc.getOutputStream());
+        this.port=port;
         t=new Thread(this);
         t.start();
     }
@@ -27,6 +29,7 @@ public class Readwrite implements Runnable{
     {
         try {
             String s=din.readUTF();
+            System.out.println(s);
             if(s.charAt(0)=='#')
             {
                 String name=s.replace('#',' ');
@@ -38,20 +41,30 @@ public class Readwrite implements Runnable{
                 {
 
                     String []s1=w.split("#");
+                    System.out.println(w);
                     known.add(new Node(s1[0],s1[1],s1[2]));
                     w=din.readUTF();
                 }
-                File f=new File(name+".txt");
-                FileWriter fw=new FileWriter(f,true);
-                BufferedWriter bw=new BufferedWriter(fw);
-                PrintWriter p=new PrintWriter(bw);
+                try {
+
+                    din.close();
+                    dout.close();
+                    soc.close();      //new add
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                BufferedWriter p = new BufferedWriter(new FileWriter(name+".txt",true));
+
                 for( Node x:known)
                 {
-                    p.println(x.word);
-                    p.println(x.mean);
-                    p.println(x.senten);
+                    System.out.println(x.word);
+                    p.append(x.word+"\n");
+                    p.append(x.mean+"\n");
+                    p.append(x.senten+"\n");
                 }
                 p.flush();
+                p.close();
 
 
 
@@ -61,6 +74,7 @@ public class Readwrite implements Runnable{
                 String []s1=s.split(" ");
                 String name=s1[0];
                 String pass=s1[1];
+                Server.load();
                 if(Server.username.contains(name)&& Server.password.get(name).equals(pass))
                 {
                     dout.writeUTF("Match");
@@ -72,13 +86,21 @@ public class Readwrite implements Runnable{
                     Scanner sc=new Scanner(f);
                     while(sc.hasNext())
                     {
-                        String t=sc.nextLine()+"#"+sc.nextLine()+"#"+sc.nextLine();
+                        String t;
+                        try {
+                            t = sc.nextLine() + "#" + sc.nextLine() + "#" + sc.nextLine();
+                        }catch (Exception e)
+                        {
+                            break;
+                        }
                         dout.writeUTF(t);
                         dout.flush();
                         System.out.println("1..");
                     }
+                    sc.close();
                     dout.writeUTF("stop");
                     dout.flush();
+
                     System.out.println("2..");
 
                 }
@@ -88,19 +110,31 @@ public class Readwrite implements Runnable{
                     dout.flush();
 
                 }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        finally {
+                try {
 
+                    din.close();
+                    dout.close();
+                    soc.close();      //new add
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (IOException e)
+        {
+            System.out.println(port);
+            e.printStackTrace();
             try {
+
                 din.close();
                 dout.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+                soc.close();      //new add
+
+            } catch (IOException e1) {
+                e1.printStackTrace();
             }
         }
+
 
     }
 }
