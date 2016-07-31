@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -16,5 +17,15 @@
                 <Font name="Gabriola" size="30.0" />
             </font>
         </Button>
+      <Label layoutX="237.0" layoutY="35.0" prefHeight="10.0" prefWidth="168.0" text="LOGING SERVER" textFill="#2ab1c3">
+         <font>
+            <Font name="Gabriola" size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="on" layoutX="208.0" layoutY="167.0" prefHeight="10.0" prefWidth="168.0" textFill="#e40606">
+         <font>
+            <Font name="Gabriola" size="23.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>
